@@ -31,7 +31,7 @@ RSpec.describe 'Task', type: :system do
         # TODO: ローカル変数ではなく let を使用してください
         visit project_tasks_path(project)
         click_link 'New Task'
-        fill_in 'Title', with: 'test'
+        fill_in 'task_title', with: 'test'
         click_button 'Create Task'
         expect(page).to have_content('Task was successfully created.')
         expect(Task.count).to eq 2
@@ -95,7 +95,7 @@ RSpec.describe 'Task', type: :system do
         visit project_tasks_path(project)
         click_link 'Destroy'
         page.driver.browser.switch_to.alert.accept
-        expect(page).not_to have_content task.title
+        expect(find('.task_list')).not_to have_content task.title
         expect(Task.count).to eq 0
         expect(current_path).to eq project_tasks_path(project)
       end
