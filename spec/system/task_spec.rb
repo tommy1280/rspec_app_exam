@@ -13,12 +13,11 @@ RSpec.describe 'Task', type: :system do
         expect(current_path).to eq project_tasks_path(project)
       end
 
-      xit 'Project詳細からTask一覧ページにアクセスした場合、Taskが表示されること' do
+      it 'Project詳細からTask一覧ページにアクセスした場合、Taskが表示されること', js: true do
         # FIXME: テストが失敗するので修正してください
-        project = FactoryBot.create(:project)
-        task = FactoryBot.create(:task, project_id: project.id)
         visit project_path(project)
         click_link 'View Todos'
+        switch_to_window(windows.last)
         expect(page).to have_content task.title
         expect(Task.count).to eq 1
         expect(current_path).to eq project_tasks_path(project)
@@ -35,8 +34,8 @@ RSpec.describe 'Task', type: :system do
         fill_in 'Title', with: 'test'
         click_button 'Create Task'
         expect(page).to have_content('Task was successfully created.')
-        expect(Task.count).to eq 1
-        expect(current_path).to eq '/projects/1/tasks/1'
+        expect(Task.count).to eq 2
+        expect(current_path).to eq '/projects/1/tasks/2'
       end
     end
   end
